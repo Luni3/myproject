@@ -1,0 +1,22 @@
+Nginx(основной сервер)  frontend
+yum -y update  && install nginx && install nano 
+systemctl start   nginx
+firewall-cmd --add-service=http
+firewall-cmd --add-service=http --permanent
+nano  /etc/nginx/nginx.conf   (вносим информацию о серверах балансировки)
+http {
+    upstream backend {
+       least_conn;
+       server 92.63.105.59;   # ip адрес  балансировки
+       server 92.63.104.205;  №  ip адрес балансировки
+    }
+....
+       location / {
+      proxy_pass http://backend;      ---? куда ему обращаться 
+ }
+****************
+Apache
+yum -y update  && install httpd  && install nano
+systemctl start httpd
+ nano /etc/httpd/conf/httpd.conf  (для проверки что все работает внести информацию показывающую разницу в страницах)
+ 
