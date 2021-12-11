@@ -1,14 +1,13 @@
 основная машина
-92.63.105.190
-yum  install mysql
+92.63.105.190 (основной сервер)
+yum  install  -y mysql
  sudo systemctl start mysqld.service
 sudo mysql_secure_installation
 mysql -u root -p
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Otus321$';
 ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'Otus321$';
 nano /etc/my.cnf
 [mysqld]
-bind-address           = 192.168.121.59
+bind-address           = 92.63.105.190
 server-id              = 1
 log_bin                = mysql-bin
 sudo mysql -u root -p  
@@ -16,3 +15,45 @@ create user repl@'%' IDENTIFIED WITH caching_sha2_password BY 'oTUSlave#2020';
 GRANT REPLICATION SLAVE ON *.* TO repl@'%';
 FLUSH PRIVILEGES;
 SHOW MASTER STATUS;
+
+
+92.63.105.59  (реплика)
+yum  install  -y mysql
+ sudo systemctl start mysqld.service
+sudo mysql_secure_installation
+sudo nano /etc/my.cnf
+[mysqld]
+bind-address           = 92.63.105.59
+server-id              = 2
+log_bin                = mysql-bin
+systemctl restart mysqld
+mysql -u root -p
+STOP SLAVE;
+CHANGE MASTER TO MASTER_HOST='92.63.105.190',MASTER_USER='repl',MASTER_PASSWORD='oTUSlave#2020',MASTER_LOG_FILE='mysql-bin.?',MASTER_LOG_POS=?;  предварительно посмотреть позицию бинлога
+START SLAVE;
+show slave status\G
+
+
+
+
+92.63.104.205 (реплика)
+yum  install  -y mysql
+ sudo systemctl start mysqld.service
+sudo mysql_secure_installation
+sudo nano /etc/my.cnf
+[mysqld]
+bind-address           = 92.63.104.205
+server-id              = 3
+log_bin                = mysql-bin
+systemctl restart mysqld
+mysql -u root -p
+STOP SLAVE;
+CHANGE MASTER TO MASTER_HOST='92.63.105.190',MASTER_USER='repl',MASTER_PASSWORD='oTUSlave#2020',MASTER_LOG_FILE='mysql-bin.?',MASTER_LOG_POS=?;  предварительно посмотреть позицию бинлога
+START SLAVE;
+show slave status\G
+
+
+
+
+
+
