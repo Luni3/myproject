@@ -1,0 +1,59 @@
+на основном сервере 92.63.105.190
+yum install  -y  httpd
+nano /etc/httpd/conf/httpd.conf  меняем порт 
+systemctl restart  httpd
+mysql -u root -p
+CREATE DATABASE wordpress;
+CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'Your-Passwd';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
+FLUSH PRIVILEGES
+exit
+yum install  -y  wget unzip 
+wget https://wordpress.org/latest.zip
+unzip -q latest.zip -d /var/www/html/
+cd wordpress
+cp -a * ..
+chown -R apache:apache /var/www/html
+nano wp-config.php
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define('DB_NAME', 'wordpress');
+
+/** MySQL database username */
+define('DB_USER', 'wpuser');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'your_password');
+
+/** MySQL hostname */
+define('DB_HOST', 'localhost');
+
+ /etc/httpd/conf.httpd.conf
+ IncludeOptional conf.d/*.conf
+mkdir /etc/httpd/vhosts.d/
+nano /etc/apache/vhosts.d/yourdomain.com.conf
+<VirtualHost: 92.63.105.190:81>
+   ServerAdmin webmaster@yourdomain.com
+   DocumentRoot "/var/www/html/"
+   ServerName yourdomain.com
+   ServerAlias www.yourdomain.com
+   ErrorLog "/var/log/httpd/yourdomain.com-error_log"
+   CustomLog "/var/log/httpd/yourdomain.com-access_log" combined
+
+<Directory "/var/www/html/">
+   DirectoryIndex index.html index.php
+   Options FollowSymLinks
+   AllowOverride All
+   Require all granted
+</Directory>
+</VirtualHost>
+systemctl restart httpd
+sudo dnf install php php-common php-pecl-apcu php-cli php-pear php-pdo php-mysqlnd php-pgsql php-gd php-mbstring php-xml
+dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+dnf module reset php:7.2
+dnf module enable php:remi-7.4
+dnf module list php
+dnf update
+sudo dnf install php php-common php-pecl-apcu php-cli php-pear php-pdo php-mysqlnd php-pgsql php-gd php-mbstring php-xml
+
+
