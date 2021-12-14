@@ -1,0 +1,5 @@
+-- ON SLAVE
+mysqldump -h 92.63.105.59 -p --all-databases --events --routines --master-data=2> dump_file
+mysqldump -h 92.63.104.205 -p --all-databases --events --routines --master-data=2> dump_file
+mysql --host=host_name -u root -p < dump_file
+mysqlbinlog --start-position=4596 binlog.000004 | mysql
