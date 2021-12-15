@@ -1,4 +1,6 @@
 92.63.105.190  основной сервер   графана прометеус нод экспортер
+yum install -y wget
+yum install -y tar 
 useradd --no-create-home --shell  /usr/bin/false  node_exporter
 useradd --no-create-home --shell  /usr/sbin/nologin prometheus
 wget https://github.com/prometheus/prometheus/releases/download/v2.32.0-rc.1/prometheus-2.32.0-rc.1.linux-amd64.tar.gz
@@ -6,10 +8,12 @@ wget https://github.com/prometheus/prometheus/releases/download/v2.32.0-rc.1/pro
 cd prometheus-2.32.0-rc.1.linux-amd64
 cp prometheus /usr/local/bin/
 cp promtool  /usr/local/bin/
-cp prometheus.yml /etc/prometheus
+mkdir /etc/prometheus
+mkdir /var/lib/prometheus
 cp  -r  console_libraries   /etc/prometheus
 cp  -r  consoles    /etc/prometheus
- chown prometheus:  /usr/local/bin/prometheus
+cp prometheus.yml /etc/prometheus
+chown prometheus:  /usr/local/bin/prometheus
  chown prometheus:  /usr/local/bin/promtool
 nano /etc/systemd/system/prometheus.service
 ########################################################  config
@@ -24,8 +28,8 @@ Group=prometheus
 Type=simple
 ExecStart=/usr/local/bin/prometheus \
   --config.file /etc/prometheus/prometheus.yml \
-  --storage.tsdb.path /var/lib/prometheus/
-  --web.console.templstes=/etc/prometheus/consoles  \
+  --storage.tsdb.path /var/lib/prometheus/   \
+  --web.console.templates=/etc/prometheus/consoles  \
   --web.console.libraries=/etc/prometheus/console_libraries
 ExecReload=/bin/kill -HUP $MAINPID
 
@@ -42,6 +46,8 @@ nano /etc/prometheus/prometheus.yml
     - targets: ['92.63.105.59:9100']
     - targets: ['92.63.104.205:9100']
  ################################################
+chown -R prometheus:prometheus /var/lib/prometheus
+
 systemctl start       prometheus
 systemctl status       prometheus
 wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
@@ -69,7 +75,7 @@ systemctl start  node_exporter
 systemctl status  node_exporter
 
 wget https://dl.grafana.com/enterprise/release/grafana-enterprise-8.3.2-1.x86_64.rpm
-yum install grafana-enterprise-8.3.2-1.x86_64.rpm
+yum install -y grafana-enterprise-8.3.2-1.x86_64.rpm
 systemctl  start grafana-server.service
 systemctl  status  grafana-server.service
 
