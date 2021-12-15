@@ -1,6 +1,6 @@
 основная машина
 92.63.105.190 (основной сервер)
-yum  install  -y mysql
+sudo dnf install -y mysql-server
  sudo systemctl start mysqld.service
 sudo mysql_secure_installation
 mysql -u root -p
@@ -18,7 +18,7 @@ SHOW MASTER STATUS;
 
 
 92.63.105.59  (реплика)
-yum  install  -y mysql
+sudo dnf install -y mysql-server
  sudo systemctl start mysqld.service
 sudo mysql_secure_installation
 sudo nano /etc/my.cnf
@@ -37,9 +37,9 @@ show slave status\G
 
 
 92.63.104.205 (реплика)
-yum  install  -y mysql
+sudo dnf install -y mysql-server
  sudo systemctl start mysqld.service
-sudo mysql_secure_installation
+sudo mysql_secure_installation    (f6UKGJ~#b~0.)
 sudo nano /etc/my.cnf
 [mysqld]
 bind-address           = 92.63.104.205
