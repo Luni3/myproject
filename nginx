@@ -18,5 +18,6 @@ http {
 Apache
 yum -y update  && install httpd  && install nano
 systemctl start httpd
+systemctl stop firewalld
  nano /etc/httpd/conf/httpd.conf  (для проверки что все работает внести информацию показывающую разницу в страницах)
  
