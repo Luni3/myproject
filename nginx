@@ -16,8 +16,11 @@ http {
  }
 ****************
 Apache
-yum -y update  && install httpd  && install nano
+yum -y update  
+yum  install  -y httpd  && install  -y nano
+yum install net-tools
 systemctl start httpd
 systemctl stop firewalld
- nano /etc/httpd/conf/httpd.conf  (для проверки что все работает внести информацию показывающую разницу в страницах)
+ nano /etc/httpd/conf/httpd.conf 
+ /usr/share/httpd/noindex/index.html  (изменяем инфу на странице для проверки раброты стека) 
  
