@@ -1,8 +1,8 @@
 Nginx(основной сервер)  frontend
 yum -y update  && install nginx && install nano 
 systemctl start   nginx
-firewall-cmd --add-service=http
-firewall-cmd --add-service=http --permanent
+systemctl stop firewalld
+
 nano  /etc/nginx/nginx.conf   (вносим информацию о серверах балансировки)
 http {
     upstream backend {
