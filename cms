@@ -55,6 +55,6 @@ dnf update
 chmod -R 777 /var/www/html/wordpress/wp-content 
 systemctl restart httpd
 для проверки  
-http://ip_адрес_vps/wordpress/wp-admin/setup-config.php
+http://92.63.105.190:8080//wordpress/wp-admin/setup-config.php
 
 
