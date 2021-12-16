@@ -4,7 +4,7 @@ sudo dnf install -y mysql-server
  sudo systemctl start mysqld.service
 sudo mysql_secure_installation
 mysql -u root -p
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'Otus321$';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'qA0wX2pK7zzN';
 nano /etc/my.cnf
 [mysqld]
 bind-address           = 92.63.105.190
