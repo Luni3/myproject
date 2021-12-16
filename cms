@@ -4,16 +4,14 @@ nano /etc/httpd/conf/httpd.conf  меняем порт
 systemctl restart  httpd
 mysql -u root -p
 CREATE DATABASE wordpress;
-CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'Your-Passwd';
+CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'oTUSlave#2020';
 GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
-FLUSH PRIVILEGES
+FLUSH PRIVILEGES;
 exit
 yum install  -y  wget unzip 
 wget https://wordpress.org/latest.zip
 unzip -q latest.zip -d /var/www/html/
-cd wordpress
-cp -a * ..
-chown -R apache:apache /var/www/html
+cd /var/www/html/wordpress/
 nano wp-config.php
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
@@ -28,11 +26,11 @@ define('DB_PASSWORD', 'your_password');
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
 
- /etc/httpd/conf.httpd.conf
+nano  /etc/httpd/conf.httpd.conf
  IncludeOptional conf.d/*.conf
 mkdir /etc/httpd/vhosts.d/
-nano /etc/apache/vhosts.d/yourdomain.com.conf
-<VirtualHost: 92.63.105.190:81>
+nano /etc/httpd/vhosts.d/yourdomain.com.conf
+<VirtualHost: 92.63.105.190:8080>
    ServerAdmin webmaster@yourdomain.com
    DocumentRoot "/var/www/html/"
    ServerName yourdomain.com
@@ -54,6 +52,9 @@ dnf module reset php:7.2
 dnf module enable php:remi-7.4
 dnf module list php
 dnf update
-sudo dnf install php php-common php-pecl-apcu php-cli php-pear php-pdo php-mysqlnd php-pgsql php-gd php-mbstring php-xml
+chmod -R 777 /var/www/html/wordpress/wp-content 
+systemctl restart httpd
+для проверки  
+http://ip_адрес_vps/wordpress/wp-admin/setup-config.php
 
 
