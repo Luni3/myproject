@@ -7,7 +7,7 @@ systemctl stop firewalld
 yum install - y net-tools
 nano  /etc/nginx/nginx.conf   (вносим информацию о серверах балансировки)
 ##############################################################################
-http {
+http { 
     upstream backend {
        least_conn;
        server 92.63.105.59;   # ip адрес  балансировки
