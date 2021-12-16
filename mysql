@@ -48,7 +48,7 @@ log_bin                = mysql-bin
 systemctl restart mysqld
 mysql -u root -p
 STOP SLAVE;
-CHANGE MASTER TO MASTER_HOST='92.63.105.190',MASTER_USER='repl',MASTER_PASSWORD='oTUSlave#2020',MASTER_LOG_FILE='mysql-bin.?',MASTER_LOG_POS=?;  предварительно посмотреть позицию бинлога
+CHANGE MASTER TO MASTER_HOST='92.63.105.190',MASTER_USER='repl',MASTER_PASSWORD='oTUSlave#2020',MASTER_LOG_FILE='binlog.000004',MASTER_LOG_POS=2273, GET_MASTER_PUBLIC_KEY = 1;  предварительно посмотреть позицию бинлога
 START SLAVE;
 show slave status\G
 
